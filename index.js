@@ -19,11 +19,19 @@ async function run() {
 
         const database = client.db("silswa_portal");
         const counselingCollection = database.collection("counseling");
+        const refundCollection = database.collection("refund");
 
         // POST counseling appointment
         app.post('/counseling', async (req, res) => {
             const appointmentInfo = req.body
             const result = await counselingCollection.insertOne(appointmentInfo)
+            res.json(result)
+        })
+
+        // POST refund request
+        app.post('/refund', async (req, res) => {
+            const refundInfo = req.body
+            const result = await refundCollection.insertOne(refundInfo)
             res.json(result)
         })
 
