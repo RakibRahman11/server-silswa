@@ -20,6 +20,7 @@ async function run() {
         const database = client.db("silswa_portal");
         const counselingCollection = database.collection("counseling");
         const refundCollection = database.collection("refund");
+        const coursesCollection = database.collection("courses");
 
         // POST counseling appointment
         app.post('/counseling', async (req, res) => {
@@ -33,6 +34,13 @@ async function run() {
             const refundInfo = req.body
             const result = await refundCollection.insertOne(refundInfo)
             res.json(result)
+        })
+
+        // GET courses collection
+        app.get('/courses', async (req, res) => {
+            const cursor = coursesCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result)
         })
 
     } finally {
