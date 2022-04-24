@@ -21,6 +21,7 @@ async function run() {
         const counselingCollection = database.collection("counseling");
         const refundCollection = database.collection("refund");
         const coursesCollection = database.collection("courses");
+        const checkoutCollection = database.collection("checkout");
 
         // POST counseling appointment
         app.post('/counseling', async (req, res) => {
@@ -33,6 +34,13 @@ async function run() {
         app.post('/refund', async (req, res) => {
             const refundInfo = req.body
             const result = await refundCollection.insertOne(refundInfo)
+            res.json(result)
+        })
+
+        // POST refund request
+        app.post('/checkout', async (req, res) => {
+            const checkoutInfo = req.body
+            const result = await checkoutCollection.insertOne(checkoutInfo)
             res.json(result)
         })
 
