@@ -60,11 +60,29 @@ async function run() {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount: amount,
                 currency: 'usd',
-                automatic_payment_methods: ['card']
+                payment_method_types: ["card"]
             });
             res.json({ clientSecret: paymentIntent.client_secret });
 
         })
+        app.put('/payment/:id', async (req, res) => {
+            const id = req.params.id
+            const payment = req.body
+            const filter = { _id: ObjectId(id) }
+            const updateDoc = {
+              $set: {
+                payment: payment
+              }
+            };
+            const result = await appointmentCollection.updateOne(filter, updateDoc);
+            res.json(result);
+          })
+          app.get('/appointments/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await appointmentCollection.findOne(query)
+            res.json(result)
+          })
     }
     finally {
         // await client.close();
