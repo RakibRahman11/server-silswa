@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000
 
 const cors = require('cors')
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe = require("stripe")`${process.env.STRIPE_SECRET}`;
 
 
 app.use(cors())
@@ -71,19 +71,19 @@ async function run() {
             const payment = req.body
             const filter = { _id: ObjectId(id) }
             const updateDoc = {
-              $set: {
-                payment: payment
-              }
+                $set: {
+                    payment: payment
+                }
             };
             const result = await paymentCollection.updateOne(filter, updateDoc);
             res.json(result);
-          })
-          app.get('/payment/:id', async (req, res) => {
+        })
+        app.get('/payment/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const result = await paymentCollection.findOne(query)
             res.json(result)
-          })
+        })
     }
     finally {
         // await client.close();
