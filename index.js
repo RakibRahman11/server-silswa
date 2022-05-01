@@ -25,6 +25,7 @@ async function run() {
         const refundCollection = database.collection("refund");
         const coursesCollection = database.collection("courses");
         const checkoutCollection = database.collection("checkout");
+        const paymentCollection = database.collection("payment");
 
         // POST counseling appointment
         app.post('/counseling', async (req, res) => {
@@ -74,13 +75,13 @@ async function run() {
                 payment: payment
               }
             };
-            const result = await appointmentCollection.updateOne(filter, updateDoc);
+            const result = await paymentCollection.updateOne(filter, updateDoc);
             res.json(result);
           })
-          app.get('/appointments/:id', async (req, res) => {
+          app.get('/payment/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
-            const result = await appointmentCollection.findOne(query)
+            const result = await paymentCollection.findOne(query)
             res.json(result)
           })
     }
