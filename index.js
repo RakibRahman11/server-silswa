@@ -25,7 +25,7 @@ async function run() {
         const refundCollection = database.collection("refund");
         const coursesCollection = database.collection("courses");
         const checkoutCollection = database.collection("checkout");
-        const paymentCollection = database.collection("payment");
+        // const paymentCollection = database.collection("payment");
 
         // POST counseling appointment
         app.post('/counseling', async (req, res) => {
@@ -66,7 +66,7 @@ async function run() {
             res.json({ clientSecret: paymentIntent.client_secret });
 
         })
-        app.put('/payment/:id', async (req, res) => {
+        app.put('/checkout/:id', async (req, res) => {
             const id = req.params.id
             const payment = req.body
             const filter = { _id: ObjectId(id) }
@@ -75,13 +75,13 @@ async function run() {
                     payment: payment
                 }
             };
-            const result = await paymentCollection.updateOne(filter, updateDoc);
+            const result = await checkoutCollection.updateOne(filter, updateDoc);
             res.json(result);
         })
-        app.get('/payment/:id', async (req, res) => {
+        app.get('/checkout/:id', async (req, res) => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
-            const result = await paymentCollection.findOne(query)
+            const result = await checkoutCollection.findOne(query)
             res.json(result)
         })
     }
