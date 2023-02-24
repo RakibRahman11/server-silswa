@@ -55,6 +55,12 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/checkout', async (req, res) => {
+            const cursor = checkoutCollection.find({});
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         app.post("/create-payment-intent", async (req, res) => {
             const paymentInfo = req.body;
             const amount = paymentInfo.price * 100
